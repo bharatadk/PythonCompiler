@@ -44,3 +44,5 @@ def runcode():
 
     return render_template('index.html', code=codeareadata , output=output)
 
+if __name__ =='__main__':
+	app.run()
