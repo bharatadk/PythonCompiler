@@ -4,7 +4,6 @@ from flask import Flask, render_template, request,url_for
 
 
 app = Flask(__name__)
-IS_DEV = app.env == 'development'  # FLASK_ENV env. variable
 
 @app.route("/")
 def index():
