@@ -1,15 +1,13 @@
 import sys
 
-from flask import Flask, render_template, request,url_for,jsonify
+from flask import Flask, render_template, request,url_for
 
 
 app = Flask(__name__)
 
-output = "0"
-
 @app.route("/")
 def index():
-	return render_template("index.html",output=output)
+	return render_template("index.html")
     
 @app.route("/runcode", methods=['POST'])
 def runcode():
@@ -18,14 +16,6 @@ def runcode():
         codeareadata = request.form['codearea']
         try:
             print('insede try')
-            codeareadata =codeareadata.strip()
-
-            with open('code.txt','w') as c:
-                c.write(codeareadata)
-            print('*'*15)
-            print(codeareadata)
-            print('*'*15)
-
             #save original standart output reference
 
             original_stdout = sys.stdout
@@ -42,7 +32,6 @@ def runcode():
             # finally read output from file and save in output variable
 
             output = open('file.txt', 'r').read()
-            print(output)
 
         except Exception as e:
             # to return error in the code
@@ -52,9 +41,7 @@ def runcode():
 
     #finally return and render index page and send codedata and output to show on page
 
-    # return render_template('index.html', code=codeareadata.strip() , output=output)
-    return str(output)
-
+    return render_template('index.html', code=codeareadata , output=output)
 
 if __name__ =='__main__':
 	app.run(debug=True)
