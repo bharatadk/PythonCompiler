@@ -20,7 +20,7 @@
 
 <body style="font-family:Verdana;"><br>
 
-<h1 style="text-align:center;">Auto PyCompiler</h1><br>
+<h1 style="text-align:center;">Python AutoCompiler-Online</h1><br>
 
 <form  id="post-form" action="javascript:void(0);"  onsubmit="submitFormData(this)">
 
@@ -33,6 +33,10 @@
 
 
     </textarea>
+
+     <label>
+                    <input type="checkbox" class="autoRun"> autoRun
+                </label>
   
 
   </div>
@@ -122,7 +126,8 @@ enableTab('codearea');
 
 
 
-     function submitFormData(event) {
+     function submitFormData(checker=false) {
+        console.log(checker)
 
 
 
@@ -139,10 +144,10 @@ enableTab('codearea');
 
             http.onreadystatechange = function() {
                 if (http.readyState == 4 && http.status == 200) {
-                    console.log("Form submitted successfully");
-                    console.log(params)
-                    document.getElementById("post-form").reset();
-                    console.log(http.responseText);
+                 //    console.log("Form submitted successfully");
+                 //    document.getElementById("post-form").reset();
+                 // document.querySelectorAll('.autoRun')[0].checked = false;
+
                     document.getElementById('output').value = http.responseText;
                     document.getElementById('codearea').value= code.trimRight()
                     
@@ -152,7 +157,22 @@ enableTab('codearea');
             // Send params with request
             http.send(params);
         }
-          window.onload = setInterval(submitFormData,3000);
+          // window.onload = setInterval(submitFormData,3000);
+
+
+
+
+ function checkerFFF(){
+      let checker = document.querySelectorAll('.autoRun')[0].checked;
+      if (checker == true){
+submitFormData(checker);
+              checker= false;
+              console.log(checker)
+              }}
+
+
+        window.onload = setInterval(checkerFFF,5000);
+
 
 
 

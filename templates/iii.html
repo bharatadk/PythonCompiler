@@ -1,31 +1,182 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Voting App</title>
-    </head>
-    <body>
-        Votes: <span id="count">{{ votes }}</span>
-        <br><br>
-        <button id="up">UP</button>
-        <br>
-        <button id="down">DOWN</button>
-    </body>
+<!doctype html>
+  <html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('button').forEach(button => {
-                button.onclick = () => {
-                    const request = new XMLHttpRequest();
-                    request.open('POST', `/${button.id}`);
-                    request.onload = () => {
-                        const response = request.responseText;
-                        document.getElementById('count').innerHTML = response;
-                    }; 
-                    request.send();
-                };
-            });
-        });
-    </script>
-</html>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Import axios, which makes HTTP requests in JS a little easier-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+ <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+<title>Auto PyCompiler</title>
+</head>
+
+
+<body style="font-family:Verdana;"><br>
+
+<h1 style="text-align:center;">Auto PyCompiler</h1><br>
+
+<form  id="post-form" action="javascript:void(0);"  onsubmit="submitFormData(this)">
+
+  <div class="form-group" style="margin-left:50px;margin-right:50px;">
+
+  <label for="codearea">Code Area</label>
+
+
+    <textarea type="text" class="form-control" id="codearea" name="codearea" rows="10">
+
+
+    </textarea>
+
+     <label>
+                    <input type="checkbox" class="autoRun"> autoRun
+                </label>
+  
+
+  </div>
+
+  <div class="form-group" style="margin-left:50px;margin-right:50px;">
+  <label for="output">Output: </label>
+  <textarea type="text" class="form-control" id="output" name="output" rows="4" disabled></textarea>
+  </div>
+
+<button type="submit" class="btn btn-primary" style="margin-left:50px;">Submit</button>
+</form>
+
+
+
+
+  
+
+
+
+  <!--   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"> 
+
+
+
+
+      function enableTab(id) {
+    var el = document.getElementById(id);
+    el.onkeydown = function(e) {
+        if (e.keyCode === 9) { // tab was pressed
+
+            // get caret position/selection
+            var val = this.value,
+                start = this.selectionStart,
+                end = this.selectionEnd;
+
+            // set textarea value to: text before caret + tab + text after caret
+            this.value = val.substring(0, start) + '\t' + val.substring(end);
+
+            // put caret at right position again
+            this.selectionStart = this.selectionEnd = start + 1;
+
+            // prevent the focus lose
+            return false;
+
+        }
+    };
+}
+
+// Enable the tab character onkeypress (onkeydown) inside textarea...
+// ... for a textarea that has an `id="my-textarea"`
+enableTab('codearea');
+
+
+
+     function submitFormData(checker=false) {
+        console.log(checker)
+
+
+
+
+            var http = new XMLHttpRequest();
+
+            var url = '/runcode';
+            var code= document.getElementById('codearea').value;
+            var params = 'codearea=' + code
+            http.open('POST', url, true);
+
+            //Send the header information
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            http.onreadystatechange = function() {
+                if (http.readyState == 4 && http.status == 200) {
+                 //    console.log("Form submitted successfully");
+                 //    document.getElementById("post-form").reset();
+                 // document.querySelectorAll('.autoRun')[0].checked = false;
+
+                    document.getElementById('output').value = http.responseText;
+                    document.getElementById('codearea').value= code.trimRight()
+                    
+                }
+            }
+
+            // Send params with request
+            http.send(params);
+        }
+          // window.onload = setInterval(submitFormData,3000);
+
+
+
+
+ function checkerFFF(){
+      let checker = document.querySelectorAll('.autoRun')[0].checked;
+      if (checker == true){
+submitFormData(checker);
+              checker= false;
+              console.log(checker)
+              }}
+
+
+        window.onload = setInterval(checkerFFF,5000);
+
+
+
+
+</script>
+
+  </body>
+  </html>
