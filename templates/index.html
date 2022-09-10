@@ -13,6 +13,8 @@
 
  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+
 
 <title>Auto PyCompiler</title>
 </head>
@@ -29,12 +31,10 @@
   <label for="codearea">Code Area</label>
 
 
-    <textarea type="text" class="form-control" id="codearea" name="codearea" rows="10">
+    <textarea type="text" class="form-control" id="codearea" name="codearea" rows="10"># Write your code here...
+</textarea>
 
-
-    </textarea>
-
-     <label>
+     <label><br>
                     <input type="checkbox" class="autoRun"> autoRun
                 </label>
   
@@ -64,119 +64,9 @@
 
 
 
+<script src="{{url_for('static', filename='scripts.js')}}"></script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script type="text/javascript"> 
-
-
-
-
-      function enableTab(id) {
-    var el = document.getElementById(id);
-    el.onkeydown = function(e) {
-        if (e.keyCode === 9) { // tab was pressed
-
-            // get caret position/selection
-            var val = this.value,
-                start = this.selectionStart,
-                end = this.selectionEnd;
-
-            // set textarea value to: text before caret + tab + text after caret
-            this.value = val.substring(0, start) + '\t' + val.substring(end);
-
-            // put caret at right position again
-            this.selectionStart = this.selectionEnd = start + 1;
-
-            // prevent the focus lose
-            return false;
-
-        }
-    };
-}
-
-// Enable the tab character onkeypress (onkeydown) inside textarea...
-// ... for a textarea that has an `id="my-textarea"`
-enableTab('codearea');
-
-
-
-     function submitFormData(checker=false) {
-        console.log(checker)
-
-
-
-
-            var http = new XMLHttpRequest();
-
-            var url = '/runcode';
-            var code= document.getElementById('codearea').value;
-            var params = 'codearea=' + code
-            http.open('POST', url, true);
-
-            //Send the header information
-            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-            http.onreadystatechange = function() {
-                if (http.readyState == 4 && http.status == 200) {
-                 //    console.log("Form submitted successfully");
-                 //    document.getElementById("post-form").reset();
-                 // document.querySelectorAll('.autoRun')[0].checked = false;
-
-                    document.getElementById('output').value = http.responseText;
-                    document.getElementById('codearea').value= code.trimRight()
-                    
-                }
-            }
-
-            // Send params with request
-            http.send(params);
-        }
-          // window.onload = setInterval(submitFormData,3000);
-
-
-
-
- function checkerFFF(){
-      let checker = document.querySelectorAll('.autoRun')[0].checked;
-      if (checker == true){
-submitFormData(checker);
-              checker= false;
-              console.log(checker)
-              }}
-
-
-        window.onload = setInterval(checkerFFF,5000);
-
-
-
-
-</script>
 
   </body>
   </html>
